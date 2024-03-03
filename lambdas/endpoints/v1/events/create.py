@@ -6,18 +6,20 @@ from datetime import datetime
 
 dynamodb = boto3.resource("dynamodb")
 
-def create(event):
+def handler(event, context):
     data = json.loads(event["body"])
+
+    print(data)
 
     if data is None:
         print("Validation Failed")
         raise Exception("Couldn't create the event item.")
 
-    if data['action_color']['color'] not in ['red', 'blue', 'green']:
+    if data['action_color']['color_name'] not in ['red', 'blue', 'green']:
         print("Validation Failed")
         raise Exception("Couldn't create the event item.")
 
-    if data['action_color']['action'] not in ['click', 'hover']:
+    if data['action_color']['action_name'] not in ['click', 'hover']:
         print("Validation Failed")
         raise Exception("Couldn't create the event item.")
 
@@ -27,8 +29,8 @@ def create(event):
 
     item = {
         "id": str(uuid.uuid1()),
-        "action": data['action_color']['action'],
-        "color": data['action_color']['color'],
+        "action": data['action_color']['action_name'],
+        "color": data['action_color']['color_name'],
         "createdAt": timestamp,
         "updatedAt": timestamp,
     }

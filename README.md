@@ -2,6 +2,27 @@
 
 [Serverless Framework] :robot: Live Events Tracking :vertical_traffic_light: Clicks &amp; Hovers on Colors :dart: Dashboards
 
+# Core Features
+
+- Create **events** based on user's actions (`/v1/events` endpoint):
+
+```ruby
+$ curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"action_color": { "action_name" : "hover", "color_name" : "red" } }' \
+  https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/events
+
+> 95188452
+```
+
+## Deployment
+
+1 function at a time:
+
+```ruby
+$ sls deploy function --function createEvent
+```
+
 ## Bundling dependencies
 
 In case you would like to include third-party dependencies, you will need to use a plugin called `serverless-python-requirements`. You can set it up by running the following command:

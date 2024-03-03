@@ -1,0 +1,19 @@
+service: serverless-color-tracking
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: python3.9
+  profile: default
+  region: us-east-1
+  logRetentionInDays: 7
+
+functions:
+  createEvent:
+    handler: lambdas/endpoints/v1/events/create.handler
+    events:
+      - http:
+          path: /v1/events
+          method: post
+          cors: true

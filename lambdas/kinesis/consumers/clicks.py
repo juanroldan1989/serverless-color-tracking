@@ -1,0 +1,1 @@
+# consumer subscribes to 'clicks' stream and writes to 'clicks' table

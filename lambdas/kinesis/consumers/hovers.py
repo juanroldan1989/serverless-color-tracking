@@ -1,0 +1,1 @@
+# consumer subscribes to 'hovers' stream and writes to 'hovers' table

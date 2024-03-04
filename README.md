@@ -12,7 +12,7 @@ $ curl -X POST \
   -d '{"action_color": { "action_name" : "hover", "color_name" : "red" } }' \
   https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/events
 
-> 95188452
+> {"message": "Message placed in the Event Stream!"}
 ```
 
 ## Deployment

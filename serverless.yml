@@ -8,12 +8,56 @@ provider:
   profile: default
   region: us-east-1
   logRetentionInDays: 7
+  environment:
+    KINESIS_STREAM: ${self:service}-${sls:stage}-eventStream
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - kinesis:GetRecords
+            - kinesis:GetShardIterator
+            - kinesis:DescribeStream
+            - kinesis:ListStreams
+            - kinesis:PutRecord
+            - kinesis:PutRecords
+          Resource:
+            - Fn::GetAtt: [kinesisStream, Arn]
 
 functions:
   createEvent:
-    handler: lambdas/endpoints/v1/events/create.handler
+    handler: lambdas/endpoints/v1/events/producer.handler
     events:
       - http:
           path: /v1/events
           method: post
           cors: true
+
+  clicksConsumer:
+    handler: lambdas/kinesis/consumers/clicks.handler
+    events:
+      - stream:
+          type: kinesis
+          arn:
+            Fn::GetAtt:
+              - kinesisStream
+              - Arn
+
+  hoversConsumer:
+    handler: lambdas/kinesis/consumers/hovers.handler
+    events:
+      - stream:
+          type: kinesis
+          arn:
+            Fn::GetAtt:
+              - kinesisStream
+              - Arn
+
+resources:
+  Resources:
+    kinesisStream:
+      Type: AWS::Kinesis::Stream
+      Properties:
+        Name: ${self:provider.environment.KINESIS_STREAM}
+        RetentionPeriodHours: 24
+        ShardCount: 1

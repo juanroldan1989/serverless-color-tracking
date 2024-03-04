@@ -9,10 +9,19 @@
 ```ruby
 $ curl -X POST \
   -H "Content-Type: application/json" \
+  -H "x-api-key: <api-key>" \
   -d '{"action_color": { "action_name" : "hover", "color_name" : "red" } }' \
   https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/events
 
 > {"message": "Message placed in serverless-color-tracking-dev-hoversStream successfully."}%
+```
+
+- Get **stats** filtered by `action` value:
+
+```ruby
+$ curl -H "Content-Type: application/json" \
+  -H "x-api-key: <api-key>" \
+  https://bc75ggsz07.execute-api.us-east-1.amazonaws.com/dev/v1/stats?action=click
 ```
 
 ## Deployment
@@ -50,6 +59,8 @@ Running the above will automatically add `serverless-python-requirements` to `pl
 ## Deep Dive DynamoDB queries
 
 https://staskoltsov.medium.com/deep-dive-into-query-and-filter-operations-in-dynamodb-ccfe4ef24e02
+
+https://dynobase.dev/dynamodb-filterexpression/
 
 ## CORS with Serverless
 

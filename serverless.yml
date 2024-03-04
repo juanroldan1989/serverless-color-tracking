@@ -39,6 +39,7 @@ provider:
           Action:
             - dynamodb:GetItem
             - dynamodb:PutItem
+            - dynamodb:Scan
           Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.DYNAMODB_STATS_TABLE}"
 
 functions:
@@ -69,6 +70,14 @@ functions:
             Fn::GetAtt:
               - kinesisHoversStream
               - Arn
+
+  getStats:
+    handler: lambdas/endpoints/v1/stats/get.handler
+    events:
+      - http:
+          path: /v1/stats
+          method: get
+          cors: true
 
 resources:
   Resources:

@@ -9,7 +9,8 @@ provider:
   region: us-east-1
   logRetentionInDays: 7
   environment:
-    KINESIS_STREAM: ${self:service}-${sls:stage}-eventStream
+    KINESIS_CLICKS_STREAM: ${self:service}-${sls:stage}-clicksStream
+    KINESIS_HOVERS_STREAM: ${self:service}-${sls:stage}-hoversStream
   iam:
     role:
       statements:
@@ -22,7 +23,17 @@ provider:
             - kinesis:PutRecord
             - kinesis:PutRecords
           Resource:
-            - Fn::GetAtt: [kinesisStream, Arn]
+            - Fn::GetAtt: [kinesisClicksStream, Arn]
+        - Effect: Allow
+          Action:
+            - kinesis:GetRecords
+            - kinesis:GetShardIterator
+            - kinesis:DescribeStream
+            - kinesis:ListStreams
+            - kinesis:PutRecord
+            - kinesis:PutRecords
+          Resource:
+            - Fn::GetAtt: [kinesisHoversStream, Arn]
 
 functions:
   createEvent:
@@ -40,7 +51,7 @@ functions:
           type: kinesis
           arn:
             Fn::GetAtt:
-              - kinesisStream
+              - kinesisClicksStream
               - Arn
 
   hoversConsumer:
@@ -50,14 +61,20 @@ functions:
           type: kinesis
           arn:
             Fn::GetAtt:
-              - kinesisStream
+              - kinesisHoversStream
               - Arn
 
 resources:
   Resources:
-    kinesisStream:
+    kinesisClicksStream:
       Type: AWS::Kinesis::Stream
       Properties:
-        Name: ${self:provider.environment.KINESIS_STREAM}
+        Name: ${self:provider.environment.KINESIS_CLICKS_STREAM}
+        RetentionPeriodHours: 24
+        ShardCount: 1
+    kinesisHoversStream:
+      Type: AWS::Kinesis::Stream
+      Properties:
+        Name: ${self:provider.environment.KINESIS_HOVERS_STREAM}
         RetentionPeriodHours: 24
         ShardCount: 1

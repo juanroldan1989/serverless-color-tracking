@@ -4,9 +4,6 @@ import json
 import uuid
 
 def handler(event, context):
-  kinesis = boto3.client('kinesis', region_name='us-east-1')
-  streamName = os.environ.get('KINESIS_STREAM')
-
   if 'body' not in event:
     return {
       'statusCode': 400,
@@ -14,6 +11,16 @@ def handler(event, context):
         'message': 'No body was found'
       })
     }
+
+  body = json.loads(event['body'])
+
+  print(f"Event Body: {body}")
+
+  if body['action_color']['action_name'] == 'hover':
+    streamName = os.environ.get('KINESIS_HOVERS_STREAM')
+
+  if body['action_color']['action_name'] == 'click':
+    streamName = os.environ.get('KINESIS_CLICKS_STREAM')
 
   if streamName is None:
     return {
@@ -23,13 +30,15 @@ def handler(event, context):
         })
       }
 
+  kinesis = boto3.client('kinesis', region_name='us-east-1')
+
   try:
     kinesis.put_record(
       StreamName=streamName,
       PartitionKey=str(uuid.uuid4()),
       Data=event['body']
     )
-    message = 'Message placed in the Event Stream!'
+    message = f'Message placed in {streamName} successfully.'
     status_code = 200
   except Exception as e:
     print(e)

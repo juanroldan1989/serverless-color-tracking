@@ -9,6 +9,7 @@ provider:
   region: us-east-1
   logRetentionInDays: 7
   environment:
+    DYNAMODB_STATS_TABLE: ${self:service}-${sls:stage}-statsTable
     KINESIS_CLICKS_STREAM: ${self:service}-${sls:stage}-clicksStream
     KINESIS_HOVERS_STREAM: ${self:service}-${sls:stage}-hoversStream
   iam:
@@ -34,6 +35,11 @@ provider:
             - kinesis:PutRecords
           Resource:
             - Fn::GetAtt: [kinesisHoversStream, Arn]
+        - Effect: Allow
+          Action:
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+          Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.DYNAMODB_STATS_TABLE}"
 
 functions:
   createEvent:
@@ -78,3 +84,14 @@ resources:
         Name: ${self:provider.environment.KINESIS_HOVERS_STREAM}
         RetentionPeriodHours: 24
         ShardCount: 1
+    StatsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_STATS_TABLE}
+        KeySchema:
+          - AttributeName: Id
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: Id
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST

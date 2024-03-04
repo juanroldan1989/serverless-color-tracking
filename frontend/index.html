@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Events Tracking Platform</title>
+
+  <!-- Stylesheets -->
+  <link href="./css/main.css" rel="stylesheet" type="text/css">
+
+  <!-- Load jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <!-- Load D3 Library -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+
+  <!-- Load Action Cable -->
+  <script src="js/websockets/action_cable.js"></script>
+
+  <!-- Load SocketIO - Alternative to Action Cable -->
+  <!-- <script src="https://cdn.socket.io/socket.io-3.0.0.js"></script> -->
+</head>
+<body>
+  <div class="split left">
+    <div class="centered title">
+      <!-- TODO: use better fonts -->
+      <h2>Hover/Click on Colors</h2>
+    </div>
+    <div id="table_colors" class="centered content"></div>
+  </div>
+
+  <!-- TODO: Apply responsive styles for 2 columns -->
+  <!-- table smaller for smaller devices -->
+  <!-- Graphs smaller for smaller devices -->
+  <div class="split right">
+    <div class="centered title">
+      <h2>Live Results</h2>
+    </div>
+
+    <div class="centered content">
+      <div id="hovers_dashboard"></div>
+      <div id="clicks_dashboard"></div>
+    </div>
+  </div>
+
+  <!-- TODO: improve footer UI -->
+  <footer>
+    <a href="https://juanroldan.com.ar">juanroldan.com.ar</a>
+  </footer>
+
+  <!-- Colors Table Generation -->
+  <script src="js/draw_colors_table.js"></script>
+
+  <!-- Events Generation -->
+  <script src="js/events/clicks_and_hovers.js"></script>
+
+  <!-- Dashboard Generation - Approach 1 -->
+  <!-- TODO: Frontend updating dashboards on each user's click/hover action -->
+  <!-- UI updated for 1 client with given API Key -->
+
+  <!-- Dashboard Generation - Approach 2 -->
+  <!-- Frontend sending events into Backend -->
+  <!-- Event persisted in DB -->
+  <!-- Backend sending results back through WebSockets -->
+  <!-- UI updated for all clients with given API Key -->
+  <!-- <script src="js/websockets/draw_clicks_dashboard.js"></script> -->
+  <!-- <script src="js/websockets/draw_hovers_dashboard.js"></script> -->
+
+  <!-- Dashboard Generation - Approach 3 -->
+  <!-- Frontend polling every 1 second and updating dashboards -->
+  <!-- UI updated for 1 client with given API Key -->
+  <script src="js/polling/draw_clicks_dashboard.js"></script>
+  <script src="js/polling/draw_hovers_dashboard.js"></script>
+</body>
+</html>

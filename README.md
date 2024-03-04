@@ -50,3 +50,7 @@ Running the above will automatically add `serverless-python-requirements` to `pl
 ## Deep Dive DynamoDB queries
 
 https://staskoltsov.medium.com/deep-dive-into-query-and-filter-operations-in-dynamodb-ccfe4ef24e02
+
+## CORS with Serverless
+
+https://www.serverless.com/blog/cors-api-gateway-survival-guide

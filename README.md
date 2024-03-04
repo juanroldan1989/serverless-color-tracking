@@ -12,16 +12,30 @@ $ curl -X POST \
   -d '{"action_color": { "action_name" : "hover", "color_name" : "red" } }' \
   https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/events
 
-> {"message": "Message placed in the Event Stream!"}
+> {"message": "Message placed in serverless-color-tracking-dev-hoversStream successfully."}%
 ```
 
 ## Deployment
+
+````ruby
+$ sls deploy
+
+Deploying serverless-color-tracking to stage dev (region)
+
+✔ Service deployed to stack serverless-color-tracking-dev (41s)
+
+endpoint: POST - https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/events
+functions:
+  createEvent: serverless-color-tracking-dev-createEvent (2.5 kB)
+  clicksConsumer: serverless-color-tracking-dev-clicksConsumer (2.5 kB)
+  hoversConsumer: serverless-color-tracking-dev-hoversConsumer (2.5 kB)
+```
 
 1 function at a time:
 
 ```ruby
 $ sls deploy function --function createEvent
-```
+````
 
 ## Bundling dependencies
 

@@ -65,3 +65,33 @@ https://dynobase.dev/dynamodb-filterexpression/
 ## CORS with Serverless
 
 https://www.serverless.com/blog/cors-api-gateway-survival-guide
+
+## AWS Websockets
+
+https://docs.amazonaws.cn/en_us/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-wscat.html
+
+https://ably.com/blog/how-to-build-a-serverless-websocket-platform
+
+10 Realtime Data sources: https://ably.com/blog/10-realtime-data-sources-you-wont-believe-are-free
+
+https://levelup.gitconnected.com/creating-a-chat-app-with-serverless-websockets-and-python-a-tutorial-54cbc432e4f
+
+Testing:
+
+```ruby
+$  npm install -g wscat
+```
+
+Connect to your endpoint using the wss:// url from your deploy output:
+
+```ruby
+wscat -c <YOUR_WEBSOCKET_ENDPOINT>
+connected (press CTRL+C to quit)
+>
+```
+
+Send a message. Note that the action key in the message is used for the route selection, all other keys can be changed to your liking:
+
+```ruby
+> {"action": "live", "api_key": "api_key", "event_type": "click"}
+```

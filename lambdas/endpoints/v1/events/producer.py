@@ -17,10 +17,10 @@ def handler(event, context):
   print(f"Event Body: {body}")
 
   if body['action_color']['action_name'] == 'hover':
-    streamName = os.environ.get('KINESIS_HOVERS_STREAM')
+    streamName = os.environ.get('HOVERS_STREAM')
 
   if body['action_color']['action_name'] == 'click':
-    streamName = os.environ.get('KINESIS_CLICKS_STREAM')
+    streamName = os.environ.get('CLICKS_STREAM')
 
   if streamName is None:
     return {

@@ -9,9 +9,12 @@ provider:
   region: us-east-1
   logRetentionInDays: 7
   environment:
-    DYNAMODB_STATS_TABLE: ${self:service}-${sls:stage}-statsTable
-    KINESIS_CLICKS_STREAM: ${self:service}-${sls:stage}-clicksStream
-    KINESIS_HOVERS_STREAM: ${self:service}-${sls:stage}-hoversStream
+    CONNECTIONS_TABLE: ${self:service}-${sls:stage}-connectionsTable
+    STATS_TABLE: ${self:service}-${sls:stage}-statsTable
+    CLICKS_STREAM: ${self:service}-${sls:stage}-clicksStream
+    HOVERS_STREAM: ${self:service}-${sls:stage}-hoversStream
+  websocketsApiName: ${self:service}-${sls:stage}-websocketApi
+  websocketsApiRouteSelectionExpression: $request.body.action
   iam:
     role:
       statements:
@@ -40,7 +43,21 @@ provider:
             - dynamodb:GetItem
             - dynamodb:PutItem
             - dynamodb:Scan
-          Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.DYNAMODB_STATS_TABLE}"
+          Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.STATS_TABLE}"
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:DeleteItem
+            - dynamodb:Scan
+          Resource: "arn:aws:dynamodb:${aws:region}:*:table/${self:provider.environment.CONNECTIONS_TABLE}"
+        - Effect: Allow
+          Action:
+            - "execute-api:ManageConnections"
+          Resource:
+            - "arn:aws:execute-api:*:*:**/@connections/*"
+
+plugins:
+  - serverless-python-requirements
 
 functions:
   createEvent:
@@ -79,24 +96,49 @@ functions:
           method: get
           cors: true
 
+  connectLiveStats:
+    handler: lambdas/endpoints/v1/stats/live.handler
+    events:
+      - websocket:
+          route: $connect
+      - websocket:
+          route: $disconnect
+
+  liveStats:
+    handler: lambdas/endpoints/v1/stats/live.broadcast_stats
+    events:
+      - websocket:
+          route: live
+
 resources:
   Resources:
     kinesisClicksStream:
       Type: AWS::Kinesis::Stream
       Properties:
-        Name: ${self:provider.environment.KINESIS_CLICKS_STREAM}
+        Name: ${self:provider.environment.CLICKS_STREAM}
         RetentionPeriodHours: 24
         ShardCount: 1
     kinesisHoversStream:
       Type: AWS::Kinesis::Stream
       Properties:
-        Name: ${self:provider.environment.KINESIS_HOVERS_STREAM}
+        Name: ${self:provider.environment.HOVERS_STREAM}
         RetentionPeriodHours: 24
         ShardCount: 1
+    ConnectionsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.CONNECTIONS_TABLE}
+        KeySchema:
+          - AttributeName: ConnectionId
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: ConnectionId
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST
     StatsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.DYNAMODB_STATS_TABLE}
+        TableName: ${self:provider.environment.STATS_TABLE}
         KeySchema:
           - AttributeName: Id
             KeyType: HASH

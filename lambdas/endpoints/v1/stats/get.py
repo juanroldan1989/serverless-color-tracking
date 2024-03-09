@@ -2,7 +2,7 @@ import json
 import os
 import boto3
 
-STATS_TABLE = os.environ.get('DYNAMODB_STATS_TABLE')
+STATS_TABLE = os.environ.get('STATS_TABLE')
 dynamodb_client = boto3.client('dynamodb')
 
 def handler(event, context):

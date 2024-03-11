@@ -2,9 +2,7 @@ import base64
 import json
 import os
 import boto3
-
-STATS_TABLE = os.environ.get('STATS_TABLE')
-dynamodb_client = boto3.client('dynamodb')
+from lambdas.consumers.common.updateCount import updateCount
 
 def handler(event, context):
   try:
@@ -27,29 +25,7 @@ def handler(event, context):
 
       message = json.loads(message)
       color = message['action_color']['color_name']
-      id = f"api_key_click_{color}"
-
-      query = dynamodb_client.get_item(
-        TableName=STATS_TABLE,
-        Key={'Id': { 'S': id }}
-      )
-
-      item = query.get('Item')
-
-      if item is None:
-        count = 0
-      else:
-        count = int(item['Count']['N'])
-
-      dynamodb_client.put_item(
-        TableName=STATS_TABLE,
-        Item={
-          'Id': { 'S': id },
-          'Action': { 'S': 'click' },
-          'Color': { 'S': message['action_color']['color_name'] },
-          'Count': { 'N': str(count + 1) }
-        }
-      )
+      updateCount('click', color)
 
   except Exception as error:
     print(error)

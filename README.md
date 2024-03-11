@@ -21,7 +21,31 @@ $ curl -X POST \
 ```ruby
 $ curl -H "Content-Type: application/json" \
   -H "x-api-key: <api-key>" \
-  https://bc75ggsz07.execute-api.us-east-1.amazonaws.com/dev/v1/stats?action=click
+  https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/stats?action=click
+```
+
+- Websockets connection available. This way the API can push updates across clients:
+
+```ruby
+$(document).ready(function() {
+  var socket;
+
+  // Connect websockets
+  socket = new ReconnectingWebSocket("wss://<api-id>.execute-api.<region>.amazonaws.com/dev");
+
+  socket.onopen = function(event) {
+    data = {"action": "live", "api_key" : "XXXXXX", "event_type": "click"};
+    // data = {"action": "live", "api_key" : "XXXXXX", "event_type": "hover"};
+    socket.send(JSON.stringify(data));
+  };
+
+  // Setup listener for messages
+  socket.onmessage = function(message) {
+    var data = JSON.parse(message.data);
+    // drawChart(data, "hovers");
+    drawChart(data, "clicks");
+  };
+});
 ```
 
 ## Deployment

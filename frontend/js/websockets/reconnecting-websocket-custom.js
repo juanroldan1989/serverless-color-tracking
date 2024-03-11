@@ -14,5 +14,6 @@ $(document).ready(function() {
   socket.onmessage = function(message) {
     var data = JSON.parse(message.data);
     console.log(data);
+    drawChart(data, "clicks");
   };
 });

@@ -99,7 +99,7 @@ def broadcast_stats(event, context):
     print("connections['Items']: ", connections["Items"])
 
     for connection in connections["Items"]:
-      _send_to_connection(connection["ConnectionId"]["S"], stats, event)
+      _send_to_connection(connection["ConnectionId"]["S"], { 'stats': stats }, event)
 
     return {
       'statusCode': 200,

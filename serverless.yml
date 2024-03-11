@@ -78,6 +78,16 @@ functions:
               - kinesisClicksStream
               - Arn
 
+  broadcastClicks:
+    handler: lambdas/kinesis/consumers/broadcast_clicks.handler
+    events:
+      - stream:
+          type: kinesis
+          arn:
+            Fn::GetAtt:
+              - kinesisClicksStream
+              - Arn
+
   hoversConsumer:
     handler: lambdas/kinesis/consumers/hovers.handler
     events:

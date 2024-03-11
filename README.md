@@ -1,8 +1,26 @@
-# serverless-color-tracking
+<img src="https://github.com/juanroldan1989/color-tracking/blob/main/color-tracking-header.png" alt="juanroldan1989 color-tracking">
 
-[Serverless Framework] :robot: Live Events Tracking :vertical_traffic_light: Clicks &amp; Hovers on Colors :dart: Dashboards
+<h4 align="center">Events Tracking Platform 🚦 Clicks & Hovers on Colors 🎯 Live Graphs & Counters</h4>
+
+<p align="center">
+  <a href="https://github.com/juanroldan1989/serverless-color-tracking/commits/master">
+  <img src="https://img.shields.io/github/last-commit/juanroldan1989/serverless-color-tracking.svg?style=flat-square&logo=github&logoColor=white" alt="GitHub last commit">
+  <a href="https://github.com/juanroldan1989/serverless-color-tracking/issues">
+  <img src="https://img.shields.io/github/issues-raw/juanroldan1989/serverless-color-tracking.svg?style=flat-square&logo=github&logoColor=white" alt="GitHub issues">
+  <a href="https://github.com/juanroldan1989/serverless-color-tracking/pulls">
+  <img src="https://img.shields.io/github/issues-pr-raw/juanroldan1989/serverless-color-tracking.svg?style=flat-square&logo=github&logoColor=white" alt="GitHub pull requests">
+  <a href="https://github.com/juanroldan1989/serverless-color-tracking/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg">
+  </a>
+  <a href="https://twitter.com/intent/tweet?text=Hey%20I've%20just%20discovered%20this%20cool%20app%20on%20Github%20by%20@JhonnyDaNiro%20-%20Color%20Tracking%20Live%20Events%20With%20Dashboards&url=https://github.com/juanroldan1989/serverless-color-tracking/&via=Github">
+  <img src="https://img.shields.io/twitter/url/https/github.com/juanroldan1989/serverless-color-tracking.svg?style=flat-square&logo=twitter" alt="GitHub tweet">
+</p>
 
 # Core Features
+
+<div align="left">
+  <img width="800" src="https://github.com/juanroldan1989/color-tracking/blob/main/color-tracking-live-demo.gif" />
+</div>
 
 - Create **events** based on user's actions (`/v1/events` endpoint):
 
@@ -16,7 +34,7 @@ $ curl -X POST \
 > {"message": "Message placed in serverless-color-tracking-dev-hoversStream successfully."}%
 ```
 
-- Get **stats** filtered by `action` value:
+- Get **stats** filtered by `action` value via "polling" implementation through REST API endpoint available:
 
 ```ruby
 $ curl -H "Content-Type: application/json" \
@@ -24,7 +42,7 @@ $ curl -H "Content-Type: application/json" \
   https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/stats?action=click
 ```
 
-- Websockets connection available. This way the API can push updates across clients:
+- Get **stats** via websockets. This way the API can push updates across clients:
 
 ```ruby
 $(document).ready(function() {
@@ -47,6 +65,8 @@ $(document).ready(function() {
   };
 });
 ```
+
+<img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/system-design.png" width="100%" />
 
 ## Deployment
 

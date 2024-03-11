@@ -18,13 +18,13 @@ def handler(event, context):
       ExpressionAttributeNames={ "#action": "Action" },
       ExpressionAttributeValues={
         ':api_key': { 'S': 'api_key' },
-        ':action': { 'S': 'click' }
+        ':action': { 'S': 'hover' }
       }
     )
     stats = []
     for item in data["Items"]:
       stats.append({
-        'action': 'click',
+        'action': 'hover',
         'color': item['Color']['S'],
         'count': int(item['Count']['N'])
       })
@@ -34,7 +34,7 @@ def handler(event, context):
 
     for connection in connections["Items"]:
       print("connection in loop: ", connection)
-      _send_to_connection(connection["ConnectionId"]["S"], { 'stats': stats, 'event_type': 'click' }, event)
+      _send_to_connection(connection["ConnectionId"]["S"], { 'stats': stats, 'event_type': 'hover' }, event)
 
   except Exception as error:
     print('error: ', error)

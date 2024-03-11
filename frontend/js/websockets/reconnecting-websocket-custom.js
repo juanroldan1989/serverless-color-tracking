@@ -8,12 +8,20 @@ $(document).ready(function() {
     console.log("Socket is open!");
     data = {"action": "live", "api_key" : "api_key", "event_type": "click"};
     socket.send(JSON.stringify(data));
+
+    data = {"action": "live", "api_key" : "api_key", "event_type": "hover"};
+    socket.send(JSON.stringify(data));
   };
 
   // Setup listener for messages
   socket.onmessage = function(message) {
     var data = JSON.parse(message.data);
     console.log(data);
-    drawChart(data, "clicks");
+
+    if (data.event_type == "hover") {
+      drawChart(data, "hovers");
+    } else if (data.event_type == "click") {
+      drawChart(data, "clicks");
+    }
   };
 });

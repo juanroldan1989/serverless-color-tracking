@@ -78,6 +78,16 @@ functions:
               - kinesisClicksStream
               - Arn
 
+  hoversConsumer:
+    handler: lambdas/kinesis/consumers/hovers.handler
+    events:
+      - stream:
+          type: kinesis
+          arn:
+            Fn::GetAtt:
+              - kinesisHoversStream
+              - Arn
+
   broadcastClicks:
     handler: lambdas/kinesis/consumers/broadcast_clicks.handler
     events:
@@ -88,8 +98,8 @@ functions:
               - kinesisClicksStream
               - Arn
 
-  hoversConsumer:
-    handler: lambdas/kinesis/consumers/hovers.handler
+  broadcastHovers:
+    handler: lambdas/kinesis/consumers/broadcast_hovers.handler
     events:
       - stream:
           type: kinesis
@@ -106,7 +116,7 @@ functions:
           method: get
           cors: true
 
-  connectLiveStats:
+  connectionManager:
     handler: lambdas/endpoints/v1/stats/live.handler
     events:
       - websocket:

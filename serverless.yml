@@ -69,7 +69,7 @@ functions:
           cors: true
 
   clicksConsumer:
-    handler: lambdas/kinesis/consumers/clicks.handler
+    handler: lambdas/consumers/clicks.handler
     events:
       - stream:
           type: kinesis
@@ -79,7 +79,7 @@ functions:
               - Arn
 
   hoversConsumer:
-    handler: lambdas/kinesis/consumers/hovers.handler
+    handler: lambdas/consumers/hovers.handler
     events:
       - stream:
           type: kinesis
@@ -89,7 +89,7 @@ functions:
               - Arn
 
   broadcastClicks:
-    handler: lambdas/kinesis/consumers/broadcast_clicks.handler
+    handler: lambdas/websockets/broadcast/clicks.handler
     events:
       - stream:
           type: kinesis
@@ -99,7 +99,7 @@ functions:
               - Arn
 
   broadcastHovers:
-    handler: lambdas/kinesis/consumers/broadcast_hovers.handler
+    handler: lambdas/websockets/broadcast/hovers.handler
     events:
       - stream:
           type: kinesis
@@ -116,19 +116,13 @@ functions:
           method: get
           cors: true
 
-  connectionManager:
-    handler: lambdas/endpoints/v1/stats/live.handler
+  websocketConnections:
+    handler: lambdas/websockets/manager.handler
     events:
       - websocket:
           route: $connect
       - websocket:
           route: $disconnect
-
-  liveStats:
-    handler: lambdas/endpoints/v1/stats/live.broadcast_stats
-    events:
-      - websocket:
-          route: live
 
 resources:
   Resources:

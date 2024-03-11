@@ -1,9 +1,9 @@
-<img src="https://github.com/juanroldan1989/color-tracking/blob/main/color-tracking-header.png" alt="juanroldan1989 color-tracking">
+# Serverless Color Tracking
 
 <h4 align="center">Events Tracking Platform 🚦 Clicks & Hovers on Colors 🎯 Live Graphs & Counters</h4>
 
 <p align="center">
-  <a href="https://github.com/juanroldan1989/serverless-color-tracking/commits/master">
+  <a href="https://github.com/juanroldan1989/serverless-color-tracking/commits/main">
   <img src="https://img.shields.io/github/last-commit/juanroldan1989/serverless-color-tracking.svg?style=flat-square&logo=github&logoColor=white" alt="GitHub last commit">
   <a href="https://github.com/juanroldan1989/serverless-color-tracking/issues">
   <img src="https://img.shields.io/github/issues-raw/juanroldan1989/serverless-color-tracking.svg?style=flat-square&logo=github&logoColor=white" alt="GitHub issues">
@@ -16,7 +16,7 @@
   <img src="https://img.shields.io/twitter/url/https/github.com/juanroldan1989/serverless-color-tracking.svg?style=flat-square&logo=twitter" alt="GitHub tweet">
 </p>
 
-# Core Features
+## Core Features
 
 <div align="left">
   <img width="800" src="https://github.com/juanroldan1989/color-tracking/blob/main/color-tracking-live-demo.gif" />
@@ -73,15 +73,24 @@ $(document).ready(function() {
 ````ruby
 $ sls deploy
 
-Deploying serverless-color-tracking to stage dev (region)
+sls deploy
 
-✔ Service deployed to stack serverless-color-tracking-dev (41s)
+Deploying serverless-color-tracking to stage dev (us-east-1)
 
-endpoint: POST - https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/events
+✔ Service deployed to stack serverless-color-tracking-dev (46s)
+
+endpoints:
+  POST - https://qemn8s86a8.execute-api.us-east-1.amazonaws.com/dev/v1/events
+  GET - https://qemn8s86a8.execute-api.us-east-1.amazonaws.com/dev/v1/stats
+  wss://s1h9o8dplb.execute-api.us-east-1.amazonaws.com/dev
 functions:
-  createEvent: serverless-color-tracking-dev-createEvent (2.5 kB)
-  clicksConsumer: serverless-color-tracking-dev-clicksConsumer (2.5 kB)
-  hoversConsumer: serverless-color-tracking-dev-hoversConsumer (2.5 kB)
+  createEvent: serverless-color-tracking-dev-createEvent (2.4 MB)
+  clicksConsumer: serverless-color-tracking-dev-clicksConsumer (2.4 MB)
+  hoversConsumer: serverless-color-tracking-dev-hoversConsumer (2.4 MB)
+  broadcastClicks: serverless-color-tracking-dev-broadcastClicks (2.4 MB)
+  broadcastHovers: serverless-color-tracking-dev-broadcastHovers (2.4 MB)
+  getStats: serverless-color-tracking-dev-getStats (2.4 MB)
+  websocketConnections: serverless-color-tracking-dev-websocketConnections (2.4 MB)
 ```
 
 1 function at a time:

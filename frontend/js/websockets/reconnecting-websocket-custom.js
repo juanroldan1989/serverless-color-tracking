@@ -12,7 +12,6 @@ $(document).ready(function() {
   // Setup listener for messages via websockets
   socket.onmessage = function(message) {
     var data = JSON.parse(message.data);
-    console.log(data);
 
     if (data.event_type == "hover") {
       drawDashboard(data, "hovers");

@@ -1,4 +1,4 @@
-function drawChart(data, dashboard_type) {
+function drawDashboard(data, dashboard_type) {
   var colors = [];
   var colors_and_counts = {};
   var html_id = ""; // id of the div where the chart will be rendered

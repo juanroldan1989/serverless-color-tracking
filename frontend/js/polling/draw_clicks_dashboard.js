@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  // Clicks Dashboard
   setInterval(function() {
     $.ajax({
       type: "GET",
@@ -8,7 +7,7 @@ $(document).ready(function() {
         xhr.setRequestHeader("Authorization", "api_key");
       },
       success: function(data){
-        drawChart(data, "clicks");
+        drawDashboard(data, "clicks");
       }
     });
   }, 500);

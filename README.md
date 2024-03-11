@@ -60,8 +60,8 @@ $(document).ready(function() {
   // Setup listener for messages
   socket.onmessage = function(message) {
     var data = JSON.parse(message.data);
-    // drawChart(data, "hovers");
-    drawChart(data, "clicks");
+    // drawDashboard(data, "hovers");
+    drawDashboard(data, "clicks");
   };
 });
 ```

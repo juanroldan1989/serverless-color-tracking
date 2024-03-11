@@ -48,6 +48,7 @@ def handler(event, context):
 def _send_to_connection(connection_id, data, event):
   # TODO: build endpoint_url using requestContext from event
   #       requestContext values are present for lambdas that handle API Gateway events
+  # endpoint_url = "https://" + event["requestContext"]["domainName"] + "/" + event["requestContext"]["stage"]
   endpoint_url = "https://s1h9o8dplb.execute-api.us-east-1.amazonaws.com/dev"
   print("endpoint_url: ", endpoint_url)
   gatewayapi = boto3.client("apigatewaymanagementapi", endpoint_url=endpoint_url)

@@ -6,7 +6,7 @@ $(document).ready(function() {
 
     $.ajax({
       type: "GET",
-      url: "https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/stats?action=hover",
+      url: "https://qemn8s86a8.execute-api.us-east-1.amazonaws.com/dev/v1/stats?action=hover",
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", "api_key");
       },

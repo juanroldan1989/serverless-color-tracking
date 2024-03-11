@@ -102,8 +102,14 @@ def broadcast_stats(event, context):
       _send_to_connection(connection["ConnectionId"]["S"], stats, event)
 
     return {
-      "statusCode": 200,
-      "body": "Data sent."
+      'statusCode': 200,
+      'headers': {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+        'Access-Control-Allow-Credentials': True
+      },
+      'body': 'Data sent.'
     }
 
   except Exception as error:

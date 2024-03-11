@@ -79,7 +79,7 @@ https://levelup.gitconnected.com/creating-a-chat-app-with-serverless-websockets-
 Testing:
 
 ```ruby
-$  npm install -g wscat
+$ npm install -g wscat
 ```
 
 Connect to your endpoint using the wss:// url from your deploy output:
@@ -94,4 +94,5 @@ Send a message. Note that the action key in the message is used for the route se
 
 ```ruby
 > {"action": "live", "api_key": "api_key", "event_type": "click"}
+> {"action": "live", "api_key": "api_key", "event_type": "hover"}
 ```

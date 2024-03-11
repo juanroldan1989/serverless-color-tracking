@@ -1,19 +1,17 @@
 $(document).ready(function() {
-  // const socket = io("ws://localhost:3000/v1/cable", {
-  //   reconnectionDelayMax: 10000,
-  //   auth: {
-  //     token: "testing",
-  //     Access-Control-Allow-Origin: "yes"
-  //   },
-  //   query: {
-  //     "my-key": "my-value"
-  //   }
-  // });
+  const socket = io("wss://knyevievfi.execute-api.us-east-1.amazonaws.com/dev", {
+    reconnectionDelayMax: 10000,
+    auth: {
+      "api_key": "api_key",
+      "Access-Control-Allow-Origin": "yes"
+    },
+    query: {
+      "event_type": "click"
+    }
+  });
 
-  // // listening for the `message` event from the server
-  // socket.on("message", text => {
-  //   const el = document.createElement("li");
-  //   el.innerHTML = text;
-  //   document.querySelector("ul").appendChild(el);
-  // })
+  // listening for the `message` event from the server
+  socket.on("message", text => {
+    console.log("text: ", text);
+  })
 });

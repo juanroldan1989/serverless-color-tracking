@@ -18,7 +18,7 @@ $(document).ready(function() {
 
     $.ajax({
       type: "POST",
-      url: "https://bc75ggsz07.execute-api.us-east-1.amazonaws.com/dev/v1/events",
+      url: "https://qemn8s86a8.execute-api.us-east-1.amazonaws.com/dev/v1/events",
       data: `{"action_color": { "action_name" : "hover", "color_name" : "${color}" } }`
     });
   });
@@ -29,7 +29,7 @@ $(document).ready(function() {
 
     $.ajax({
       type: "POST",
-      url: "https://bc75ggsz07.execute-api.us-east-1.amazonaws.com/dev/v1/events",
+      url: "https://qemn8s86a8.execute-api.us-east-1.amazonaws.com/dev/v1/events",
       data: `{"action_color": { "action_name" : "click", "color_name" : "${color}" } }`
     });
   });

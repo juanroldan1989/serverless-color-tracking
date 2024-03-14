@@ -4,15 +4,26 @@ import json
 import uuid
 
 def handler(event, context):
+  api_key = event.get('headers', {}).get('Authorization')
+
+  if api_key is None:
+    return {
+      'statusCode': 401,
+      'body': json.dumps({
+        'message': 'Unauthorized: Missing `Authorization` header'
+      })
+    }
+
   if 'body' not in event:
     return {
       'statusCode': 400,
       'body': json.dumps({
-        'message': 'No body was found'
+        'message': 'Missing request body.'
       })
     }
 
   body = json.loads(event['body'])
+  body['api_key'] = api_key
 
   print(f"Event Body: {body}")
 
@@ -36,7 +47,7 @@ def handler(event, context):
     kinesis.put_record(
       StreamName=streamName,
       PartitionKey=str(uuid.uuid4()),
-      Data=event['body']
+      Data=json.dumps(body)
     )
     message = f'Message placed in {streamName} successfully.'
     status_code = 200

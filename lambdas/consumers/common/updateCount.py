@@ -4,8 +4,8 @@ import boto3
 STATS_TABLE = os.environ.get('STATS_TABLE')
 dynamodb_client = boto3.client('dynamodb')
 
-def updateCount(action, color):
-  id = f"api_key_{action}_{color}"
+def updateCount(api_key, action, color):
+  id = f"{api_key}_{action}_{color}"
 
   query = dynamodb_client.get_item(
     TableName=STATS_TABLE,

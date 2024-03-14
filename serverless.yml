@@ -2,7 +2,6 @@ service: serverless-color-tracking
 
 frameworkVersion: "3"
 
-# TODO: connect everything through API Keys
 # TODO: build Admin dashboard displaying stats per API Key (real time)
 
 provider:

@@ -18,8 +18,11 @@ $(document).ready(function() {
 
     $.ajax({
       type: "POST",
-      url: "https://qemn8s86a8.execute-api.us-east-1.amazonaws.com/dev/v1/events",
-      data: `{"action_color": { "action_name" : "hover", "color_name" : "${color}" } }`
+      url: "https://ass420o709.execute-api.us-east-1.amazonaws.com/dev/v1/events",
+      data: `{"action_color": { "action_name" : "hover", "color_name" : "${color}" } }`,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", "api_key");
+      }
     });
   });
 
@@ -29,8 +32,11 @@ $(document).ready(function() {
 
     $.ajax({
       type: "POST",
-      url: "https://qemn8s86a8.execute-api.us-east-1.amazonaws.com/dev/v1/events",
-      data: `{"action_color": { "action_name" : "click", "color_name" : "${color}" } }`
+      url: "https://ass420o709.execute-api.us-east-1.amazonaws.com/dev/v1/events",
+      data: `{"action_color": { "action_name" : "click", "color_name" : "${color}" } }`,
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", "api_key");
+      }
     });
   });
 });

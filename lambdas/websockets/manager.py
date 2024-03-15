@@ -9,7 +9,8 @@ dynamodb_client = boto3.client('dynamodb')
 
 def handler(event, context):
   print("event: ", event)
-
+  # TODO: use api_key from client
+  # api_key = event.get('headers', {}).get('Sec-WebSocket-Protocol')
   connectionId = event.get("requestContext", {}).get("connectionId")
 
   print("connectionId: ", connectionId)
@@ -18,7 +19,12 @@ def handler(event, context):
     if event["requestContext"]["eventType"] == "CONNECT":
       dynamodb_client.put_item(
         TableName=CONNECTIONS_TABLE,
-        Item={'ConnectionId': { 'S': connectionId } }
+        Item={
+          'ConnectionId': { 'S': connectionId },
+          'DomainName': { 'S': event["requestContext"]["domainName"] },
+          'Stage': { 'S': event["requestContext"]["stage"] },
+          'ApiKey': { 'S': 'api_key' }
+        }
       )
 
       return {

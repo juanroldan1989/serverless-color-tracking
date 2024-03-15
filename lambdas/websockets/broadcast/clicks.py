@@ -10,8 +10,15 @@ dynamodb_client = boto3.client('dynamodb')
 def handler(event, context):
   print("broadcast_stats event: ", event)
 
+  # TODO: use api_key from kinesis event similar as in consumers logic.
+
   try:
-    connections = dynamodb_client.scan(TableName=CONNECTIONS_TABLE)
+    connections = dynamodb_client.scan(
+      TableName=CONNECTIONS_TABLE,
+      FilterExpression='#api_key = :api_key',
+      ExpressionAttributeNames={ "#api_key": "ApiKey" },
+      ExpressionAttributeValues={ ':api_key': { 'S': 'api_key' } }
+    )
     data = dynamodb_client.scan(
       TableName=STATS_TABLE,
       FilterExpression='begins_with(Id, :api_key) and #action = :action',
@@ -34,7 +41,8 @@ def handler(event, context):
 
     for connection in connections["Items"]:
       print("connection in loop: ", connection)
-      _send_to_connection(connection["ConnectionId"]["S"], { 'stats': stats, 'event_type': 'click' }, event)
+      data = { 'stats': stats, 'event_type': 'click' }
+      _send_to_connection(connection, data)
 
   except Exception as error:
     print('error: ', error)
@@ -45,14 +53,11 @@ def handler(event, context):
       })
     }
 
-def _send_to_connection(connection_id, data, event):
-  # TODO: build endpoint_url using requestContext from event
-  #       requestContext values are present for lambdas that handle API Gateway events
-  # endpoint_url = "https://" + event["requestContext"]["domainName"] + "/" + event["requestContext"]["stage"]
-  endpoint_url = "https://s1h9o8dplb.execute-api.us-east-1.amazonaws.com/dev"
+def _send_to_connection(connection, data):
+  endpoint_url = "https://" + connection["DomainName"]["S"] + "/" + connection["Stage"]["S"]
   print("endpoint_url: ", endpoint_url)
   gatewayapi = boto3.client("apigatewaymanagementapi", endpoint_url=endpoint_url)
   gatewayapi.post_to_connection(
-    ConnectionId=connection_id,
+    ConnectionId=connection["ConnectionId"]["S"],
     Data=json.dumps(data).encode('utf-8')
   )

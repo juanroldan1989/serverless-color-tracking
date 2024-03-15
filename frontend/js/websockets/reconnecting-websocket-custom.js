@@ -20,3 +20,11 @@ $(document).ready(function() {
     }
   };
 });
+
+// TODO: use API Key (or any other Auth methods) when openning connection
+// `Sec-WebSocket-Protocol` header can be used to pass the `Authorization` header
+// socket = new ReconnectingWebSocket("wss://f61ceyfszl.execute-api.us-east-1.amazonaws.com/dev", ["api_key"]);
+// issue is connection gets closed and JS plugin tries to open again and connection is closed again
+
+// alternative:
+// socket = new ReconnectingWebSocket("wss://f61ceyfszl.execute-api.us-east-1.amazonaws.com/dev", ["Bearer api key"]);

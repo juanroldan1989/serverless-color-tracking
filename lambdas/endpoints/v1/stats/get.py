@@ -1,6 +1,7 @@
 import json
 import os
 import boto3
+from lambdas.common.statsUtils import format_stats, get_stats
 
 STATS_TABLE = os.environ.get('STATS_TABLE')
 dynamodb_client = boto3.client('dynamodb')
@@ -27,23 +28,9 @@ def handler(event, context):
     }
 
   try:
-    response = dynamodb_client.scan(
-      TableName=STATS_TABLE,
-      FilterExpression='begins_with(Id, :api_key) and #action = :action',
-      ExpressionAttributeNames={ "#action": "Action" },
-      ExpressionAttributeValues={
-        ':api_key': { 'S': api_key },
-        ':action': { 'S': action }
-      }
-    )
-    items = response.get('Items')
-    stats = []
-    for item in items:
-      stats.append({
-        'action': action,
-        'color': item['Color']['S'],
-        'count': int(item['Count']['N'])
-      })
+    data = get_stats(api_key, action)
+    stats = format_stats(data, action)
+
     return {
       'statusCode': 200,
       'headers': {

@@ -3,11 +3,23 @@ import os
 import boto3
 from lambdas.common.statsUtils import format_stats, get_stats
 
+ADMIN_API_KEY = os.environ.get('ADMIN_API_KEY')
 CONNECTIONS_TABLE = os.environ.get('CONNECTIONS_TABLE')
 STATS_TABLE = os.environ.get('STATS_TABLE')
+
 dynamodb_client = boto3.client('dynamodb')
 
 def handler(event, context):
+  api_key = event.get('headers', {}).get('Authorization')
+
+  if api_key is None or api_key != ADMIN_API_KEY:
+    return {
+      'statusCode': 401,
+      'body': json.dumps({
+        'message': 'Unauthorized'
+      })
+    }
+
   all_stats = []
 
   try:

@@ -3,9 +3,9 @@ $(document).ready(function() {
     $.ajax({
       type: "GET",
       url: "https://qqoj6um6g8.execute-api.us-east-1.amazonaws.com/dev/admin/v1/stats",
-      // beforeSend: function (xhr) {
-      //   xhr.setRequestHeader("Authorization", "api_key");
-      // },
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("Authorization", "admin_api_key");
+      },
       success: function(data){
         console.log("admin - draw table - data: ", data);
         $.each( data.stats, function( key, data ) {

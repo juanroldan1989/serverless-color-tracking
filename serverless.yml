@@ -2,8 +2,6 @@ service: serverless-color-tracking
 
 frameworkVersion: "3"
 
-# TODO: build Admin dashboard displaying stats per API Key (real time)
-
 provider:
   name: aws
   runtime: python3.9
@@ -11,6 +9,7 @@ provider:
   region: us-east-1
   logRetentionInDays: 7
   environment:
+    ADMIN_API_KEY: ${file(./secrets.json):ADMIN_API_KEY}
     CONNECTIONS_TABLE: ${self:service}-${sls:stage}-connectionsTable
     STATS_TABLE: ${self:service}-${sls:stage}-statsTable
     CLICKS_STREAM: ${self:service}-${sls:stage}-clicksStream

@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Admin Dashboard</title>
-  <link href="./css/main.css" rel="stylesheet" type="text/css">
 </head>
 
 <section>
@@ -23,41 +22,25 @@
     </tr>
 </section>
 
-<!-- sort table results by API KEY -->
-<!-- auto-generate standard cells -->
-<!-- e.g.: <td id="api_key_A_hover_red">0</td> -->
-<!-- e.g.: <td id="api_key_A_hover_blue">0</td> -->
-<!-- e.g.: <td id="api_key_A_hover_green">0</td> -->
-<!-- e.g.: <td id="api_key_A_hover_yellow">0</td> -->
 <section>
-  <table>
+  <table id="stats">
     <thead>
-      <td>User / API KEY</td>
-      <td>Action</tdz>
-      <td>Colors</td>
+      <tr>
+        <td>ApiKey</td>
+        <td>Action</tdz>
+        <td>Color</td>
+        <td>Count</td>
+      </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>API_KEY_1</td>
-        <td>Click</td>
-        <td>Red (85) - Blue (120) </td>
-      </tr>
-      <tr>
-        <td>API_KEY_1</td>
-        <td>Hover</td>
-        <td>Blue (10) - Blue (120) </td>
-      </tr>
-      <tr>
-        <td>API_KEY_2</td>
-        <td>Hover</td>
-        <td>Yellow (85) - Blue (120) </td>
-      </tr>
-      <tr>
-        <td>API_KEY_3</td>
-        <td>Click</td>
-        <td>Green (12) - Blue (120) </td>
-      </tr>
+    <tbody></tbody>
   </table>
 </section>
+
+<!-- Load jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Stats Table Generation -->
+<script src="js/charts/update_cell.js"></script>
+<script src="js/polling/draw_stats_table.js"></script>
 
 </html>

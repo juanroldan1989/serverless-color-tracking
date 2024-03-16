@@ -110,11 +110,35 @@ functions:
               - kinesisHoversStream
               - Arn
 
+  broadcastAdminStats:
+    handler: lambdas/websockets/broadcast/admin/stats.handler
+    events:
+      - stream:
+          type: kinesis
+          arn:
+            Fn::GetAtt:
+              - kinesisClicksStream
+              - Arn
+      - stream:
+          type: kinesis
+          arn:
+            Fn::GetAtt:
+              - kinesisHoversStream
+              - Arn
+
   getStats:
     handler: lambdas/endpoints/v1/stats/get.handler
     events:
       - http:
           path: /v1/stats
+          method: get
+          cors: true
+
+  getAdminStats:
+    handler: lambdas/endpoints/admin/stats.handler
+    events:
+      - http:
+          path: /admin/v1/stats
           method: get
           cors: true
 

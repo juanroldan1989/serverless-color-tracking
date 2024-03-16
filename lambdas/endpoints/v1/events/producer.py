@@ -27,6 +27,7 @@ def handler(event, context):
 
   print(f"Event Body: {body}")
 
+  # TODO: simplify parameters sent from client
   if body['action_color']['action_name'] == 'hover':
     streamName = os.environ.get('HOVERS_STREAM')
 

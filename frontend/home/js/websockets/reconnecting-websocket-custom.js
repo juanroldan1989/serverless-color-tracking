@@ -2,7 +2,7 @@ $(document).ready(function() {
   var socket;
 
   // Connect websockets
-  socket = new ReconnectingWebSocket("wss://s1h9o8dplb.execute-api.us-east-1.amazonaws.com/dev");
+  socket = new ReconnectingWebSocket("wss://i9wbghqbpf.execute-api.us-east-1.amazonaws.com/dev");
 
   socket.onopen = function(event) {
     console.log("Socket is open!");

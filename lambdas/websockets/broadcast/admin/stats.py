@@ -35,17 +35,17 @@ def handler(event, context):
       connections = get_connections(ADMIN_API_KEY)
 
       # get single stat
-      stat = get_single_stat(payload['api_key'], payload['action_color']['action_name'], payload['action_color']['color_name'])
+      stat = get_single_stat(payload['api_key'], payload['action'], payload['color'])
 
       # for every Admin connected to the Admin Stats Dashboard
       for connection in connections["Items"]:
         print("connection in loop: ", connection)
 
         data = {
-          "api_key": payload['api_key'],                    # read from kinesis stream
-          "action": payload['action_color']['action_name'], # read from kinesis stream
-          "color": payload['action_color']['color_name'],   # read from kinesis stream
-          "count": stat['Count']['N']                       # read from dynamodb
+          "api_key": payload['api_key'], # read from kinesis stream
+          "action": payload['action'],   # read from kinesis stream
+          "color": payload['color'],     # read from kinesis stream
+          "count": stat['Count']['N']    # read from dynamodb
         }
 
         send_to_connection(connection, data)

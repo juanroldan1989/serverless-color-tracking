@@ -19,7 +19,7 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "https://qxk9fmectf.execute-api.us-east-1.amazonaws.com/dev/v1/events",
-      data: `{"action_color": { "action_name" : "hover", "color_name" : "${color}" } }`,
+      data: `{ "action" : "hover", "color" : "${color}" }`,
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", "api_key");
       }
@@ -33,7 +33,7 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "https://qxk9fmectf.execute-api.us-east-1.amazonaws.com/dev/v1/events",
-      data: `{"action_color": { "action_name" : "click", "color_name" : "${color}" } }`,
+      data: `{ "action" : "click", "color" : "${color}" }`,
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", "api_key");
       }

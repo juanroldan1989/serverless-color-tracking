@@ -28,7 +28,7 @@
 $ curl -X POST \
   -H "Content-Type: application/json" \
   -H "x-api-key: <api-key>" \
-  -d '{"action_color": { "action_name" : "hover", "color_name" : "red" } }' \
+  -d '{ "action" : "hover", "color" : "red" }' \
   https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/events
 
 > {"message": "Message placed in serverless-color-tracking-dev-hoversStream successfully."}%

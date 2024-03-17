@@ -27,11 +27,10 @@ def handler(event, context):
 
   print(f"Event Body: {body}")
 
-  # TODO: simplify parameters sent from client
-  if body['action_color']['action_name'] == 'hover':
+  if body['action'] == 'hover':
     streamName = os.environ.get('HOVERS_STREAM')
 
-  if body['action_color']['action_name'] == 'click':
+  if body['action'] == 'click':
     streamName = os.environ.get('CLICKS_STREAM')
 
   if streamName is None:

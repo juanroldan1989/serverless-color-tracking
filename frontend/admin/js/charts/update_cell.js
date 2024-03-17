@@ -16,11 +16,7 @@ function updateCell(api_key, action, color, count) {
     new_row += "</tr>";
 
     console.log("new_row: ", new_row);
-
     var table_body = $("#stats tbody");
-
     $(table_body).append(new_row);
-
-    console.log("new row added for: ", cell_id);
   }
 };

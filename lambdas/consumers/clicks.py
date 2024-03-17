@@ -9,7 +9,7 @@ def handler(event, context):
       if payload['api_key'] is None:
         continue
 
-      updateCount(payload['api_key'], 'click', payload['action_color']['color_name'])
+      updateCount(payload['api_key'], 'click', payload['color'])
 
   except Exception as error:
     print(error)

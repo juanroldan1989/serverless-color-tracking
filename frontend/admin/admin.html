@@ -37,8 +37,20 @@
 <!-- Load Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+<!-- Websockets tools -->
+<script src="js/websockets/reconnecting-websocket.js"></script>
+
 <!-- Stats Table Generation -->
 <script src="js/charts/update_cell.js"></script>
-<script src="js/polling/draw_stats_table.js"></script>
+
+<!-- Approach 1 -->
+<!-- Backend broadcasting results back to Admin Stats Dashboard through WebSockets -->
+<!-- UI updated for all admins with given ADMIN API Key -->
+<script src="js/websockets/reconnecting-websocket-custom.js"></script>
+
+<!-- Approach 2 -->
+<!-- Admin Stats Dashboard polling every 0.5 second and updating dashboards -->
+<!-- UI updated for 1 Admin client with given API Key -->
+<!-- <script src="js/polling/draw_stats_table.js"></script> -->
 
 </html>

@@ -7,7 +7,7 @@ $(document).ready(function() {
   socket.onopen = function(event) {
     console.log("Socket is open!");
     // API Key associated with the connection
-    data = {"action": "add_api_key", "api_key" : "api_key"};
+    data = {"action": "add_api_key", "api_key" : "admin_api_key"};
     socket.send(JSON.stringify(data));
   };
 
@@ -15,10 +15,15 @@ $(document).ready(function() {
   socket.onmessage = function(message) {
     var data = JSON.parse(message.data);
 
-    if (data.event_type == "hover") {
-      drawDashboard(data, "hovers");
-    } else if (data.event_type == "click") {
-      drawDashboard(data, "clicks");
+    // data = {
+    //   "api_key" : "api_key",
+    //   "action" : "hover",
+    //   "color" : "blue",
+    //   "count" : 317
+    // }
+
+    if (data.api_key && data.action && data.color && data.count) {
+      updateCell(data.api_key, data.action, data.color, data.count);
     }
   };
 });

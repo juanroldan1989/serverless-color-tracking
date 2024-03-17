@@ -8,12 +8,7 @@ STATS_TABLE = os.environ.get('STATS_TABLE')
 dynamodb_client = boto3.client('dynamodb')
 
 def handler(event, context):
-  print("event: ", event)
-  # TODO: use api_key from client
-  # api_key = event.get('headers', {}).get('Sec-WebSocket-Protocol')
   connectionId = event.get("requestContext", {}).get("connectionId")
-
-  print("connectionId: ", connectionId)
 
   try:
     if event["requestContext"]["eventType"] == "CONNECT":
@@ -22,8 +17,7 @@ def handler(event, context):
         Item={
           'ConnectionId': { 'S': connectionId },
           'DomainName': { 'S': event["requestContext"]["domainName"] },
-          'Stage': { 'S': event["requestContext"]["stage"] },
-          'ApiKey': { 'S': 'api_key' }
+          'Stage': { 'S': event["requestContext"]["stage"] }
         }
       )
 
@@ -42,6 +36,21 @@ def handler(event, context):
         "statusCode": 200,
         "body": "Disconnected."
       }
+
+    if event["requestContext"]["eventType"] == "MESSAGE":
+      body = json.loads(event['body'])
+      api_key = body['api_key']
+
+      # associate client API Key with Connection
+      dynamodb_client.put_item(
+        TableName=CONNECTIONS_TABLE,
+        Item={
+          'ConnectionId': { 'S': connectionId },
+          'DomainName': { 'S': event["requestContext"]["domainName"] },
+          'Stage': { 'S': event["requestContext"]["stage"] },
+          'ApiKey': { 'S': api_key }
+        }
+      )
 
     else:
       return {

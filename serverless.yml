@@ -148,6 +148,8 @@ functions:
           route: $connect
       - websocket:
           route: $disconnect
+      - websocket:
+          route: $default
 
 resources:
   Resources:

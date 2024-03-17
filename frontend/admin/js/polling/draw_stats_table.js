@@ -2,7 +2,7 @@ $(document).ready(function() {
   setInterval(function() {
     $.ajax({
       type: "GET",
-      url: "https://qqoj6um6g8.execute-api.us-east-1.amazonaws.com/dev/admin/v1/stats",
+      url: "https://qxk9fmectf.execute-api.us-east-1.amazonaws.com/dev/admin/v1/stats",
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", "admin_api_key");
       },
@@ -10,6 +10,7 @@ $(document).ready(function() {
         console.log("admin - draw table - data: ", data);
         $.each( data.stats, function( key, data ) {
           console.log("admin - draw table - data: ", data);
+
           // data = {
           //   "api_key" : "api_key",
           //   "action" : "hover",
@@ -21,15 +22,8 @@ $(document).ready(function() {
           //   ]
           // }
 
-          var api_key = data.api_key;
-          var action = data.action;
-          var counts = data.counts;
-
-          $.each(counts, function(key, val) {
-            var color = val.color;
-            var count = val.count;
-
-            updateCell(api_key, action, color, count);
+          $.each(data.counts, function(key, val) {
+            updateCell(data.api_key, data.action, val.color, val.count);
           });
         });
       }

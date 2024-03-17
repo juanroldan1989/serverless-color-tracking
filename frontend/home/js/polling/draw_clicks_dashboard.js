@@ -2,7 +2,7 @@ $(document).ready(function() {
   setInterval(function() {
     $.ajax({
       type: "GET",
-      url: "https://qqoj6um6g8.execute-api.us-east-1.amazonaws.com/dev/v1/stats?action=click",
+      url: "https://qxk9fmectf.execute-api.us-east-1.amazonaws.com/dev/v1/stats?action=click",
       beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", "api_key");
       },

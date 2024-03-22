@@ -1,8 +1,8 @@
-# Serverless Color Tracking
+# Serverless Color Tracking Platform
 
-<h4 align="center">Events Tracking Platform 🚦 Clicks & Hovers on Colors 🎯 Live Graphs & Counters</h4>
+<h4 align="left">Events Tracking Platform 🚦 Clicks & Hovers on Colors 🎯 Live Graphs & Counters</h4>
 
-<p align="center">
+<p align="left">
   <a href="https://github.com/juanroldan1989/serverless-color-tracking/commits/main">
   <img src="https://img.shields.io/github/last-commit/juanroldan1989/serverless-color-tracking.svg?style=flat-square&logo=github&logoColor=white" alt="GitHub last commit">
   <a href="https://github.com/juanroldan1989/serverless-color-tracking/issues">
@@ -25,14 +25,14 @@
 ## Admin page
 
 <div align="left">
-  <img width="800" src="https://github.com/juanroldan1989/color-tracking/blob/main/serverless-color-tracking-admin-page-demo.gif" />
+  <img width="800" src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/serverless-color-tracking-admin-page-demo.gif" />
 </div>
 
-## Backend (system design)
+# Backend
 
 <img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/system-design.png" width="100%" />
 
-### Core Features
+## Core Features
 
 - Create **events** based on user's actions (`/v1/events` endpoint):
 
@@ -50,17 +50,17 @@ $ curl -X POST \
 
 - Get **stats** filtered by `action` value via "polling" implementation through REST API endpoint available:
 
-<img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/serverless-color-tracking-get-stats.png" width="100%" />
-
 ```ruby
 $ curl -H "Content-Type: application/json" \
   -H "x-api-key: <api-key>" \
   https://<api-id>.execute-api.<region>.amazonaws.com/dev/v1/stats?action=click
 ```
 
-- Get **stats** via websockets. This way the API can push updates across clients:
+<div align="center">
+  <img width="600" src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/serverless-color-tracking-get-stats.png" width="100%" />
+</div>
 
-<img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/serverless-color-tracking-broadcast-events.png" width="100%" />
+- Server broadcasts **stats** via websockets. This way the API can push updates across clients using an specific API Key:
 
 ```ruby
 $(document).ready(function() {
@@ -78,11 +78,17 @@ $(document).ready(function() {
   // Setup listener for messages
   socket.onmessage = function(message) {
     var data = JSON.parse(message.data);
-    // drawDashboard(data, "hovers");
-    drawDashboard(data, "clicks");
+
+    if (data.event_type == "hover") {
+      drawDashboard(data, "hovers");
+    } else if (data.event_type == "click") {
+      drawDashboard(data, "clicks");
+    }
   };
 });
 ```
+
+<img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/serverless-color-tracking-broadcast-events.png" width="100%" />
 
 ## Deployment
 
@@ -93,10 +99,8 @@ $(document).ready(function() {
 
 ### Backend
 
-````ruby
+```ruby
 $ sls deploy
-
-sls deploy
 
 Deploying serverless-color-tracking to stage dev (<region-id>)
 
@@ -118,12 +122,6 @@ functions:
   getAdminStats: serverless-color-tracking-dev-getAdminStats (77 MB)
   websocketConnections: serverless-color-tracking-dev-websocketConnections (77 MB)
 ```
-
-1 function at a time:
-
-```ruby
-$ sls deploy function --function createEvent
-````
 
 ## Bundling dependencies
 

@@ -16,11 +16,23 @@
   <img src="https://img.shields.io/twitter/url/https/github.com/juanroldan1989/serverless-color-tracking.svg?style=flat-square&logo=twitter" alt="GitHub tweet">
 </p>
 
-## Core Features
+## Home page
 
 <div align="left">
   <img width="800" src="https://github.com/juanroldan1989/color-tracking/blob/main/color-tracking-live-demo.gif" />
 </div>
+
+## Admin page
+
+<div align="left">
+  <img width="800" src="https://github.com/juanroldan1989/color-tracking/blob/main/serverless-color-tracking-admin-page-demo.gif" />
+</div>
+
+## Backend (system design)
+
+<img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/system-design.png" width="100%" />
+
+### Core Features
 
 - Create **events** based on user's actions (`/v1/events` endpoint):
 
@@ -34,7 +46,11 @@ $ curl -X POST \
 > {"message": "Message placed in serverless-color-tracking-dev-hoversStream successfully."}%
 ```
 
+<img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/serverless-color-tracking-post-events.png" width="100%" />
+
 - Get **stats** filtered by `action` value via "polling" implementation through REST API endpoint available:
+
+<img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/serverless-color-tracking-get-stats.png" width="100%" />
 
 ```ruby
 $ curl -H "Content-Type: application/json" \
@@ -44,16 +60,18 @@ $ curl -H "Content-Type: application/json" \
 
 - Get **stats** via websockets. This way the API can push updates across clients:
 
+<img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/serverless-color-tracking-broadcast-events.png" width="100%" />
+
 ```ruby
 $(document).ready(function() {
   var socket;
 
-  // Connect websockets
+  // Websocket connection opened
   socket = new ReconnectingWebSocket("wss://<api-id>.execute-api.<region>.amazonaws.com/dev");
 
+  // API Key associated with the connection
   socket.onopen = function(event) {
-    data = {"action": "live", "api_key" : "XXXXXX", "event_type": "click"};
-    // data = {"action": "live", "api_key" : "XXXXXX", "event_type": "hover"};
+    data = {"action": "add_api_key", "api_key" : "api_key"};
     socket.send(JSON.stringify(data));
   };
 
@@ -66,31 +84,39 @@ $(document).ready(function() {
 });
 ```
 
-<img src="https://github.com/juanroldan1989/serverless-color-tracking/raw/main/screenshots/system-design.png" width="100%" />
-
 ## Deployment
+
+### Frontend (Home/Admin)
+
+- Docker container running static website:
+  https://www.back4app.com/docs-containers/run-a-static-website-on-containers
+
+### Backend
 
 ````ruby
 $ sls deploy
 
 sls deploy
 
-Deploying serverless-color-tracking to stage dev (us-east-1)
+Deploying serverless-color-tracking to stage dev (<region-id>)
 
 ✔ Service deployed to stack serverless-color-tracking-dev (46s)
 
 endpoints:
-  POST - https://qemn8s86a8.execute-api.us-east-1.amazonaws.com/dev/v1/events
-  GET - https://qemn8s86a8.execute-api.us-east-1.amazonaws.com/dev/v1/stats
-  wss://s1h9o8dplb.execute-api.us-east-1.amazonaws.com/dev
+  POST - https://<api-id>.execute-api.<region-id>.amazonaws.com/dev/v1/events
+  GET - https://<api-id>.execute-api.<region-id>.amazonaws.com/dev/v1/stats
+  GET - https://<api-id>.execute-api.<region-id>.amazonaws.com/dev/admin/v1/stats
+  wss://<wss-api-id>.execute-api.<region-id>.amazonaws.com/dev
 functions:
-  createEvent: serverless-color-tracking-dev-createEvent (2.4 MB)
-  clicksConsumer: serverless-color-tracking-dev-clicksConsumer (2.4 MB)
-  hoversConsumer: serverless-color-tracking-dev-hoversConsumer (2.4 MB)
-  broadcastClicks: serverless-color-tracking-dev-broadcastClicks (2.4 MB)
-  broadcastHovers: serverless-color-tracking-dev-broadcastHovers (2.4 MB)
-  getStats: serverless-color-tracking-dev-getStats (2.4 MB)
-  websocketConnections: serverless-color-tracking-dev-websocketConnections (2.4 MB)
+  createEvent: serverless-color-tracking-dev-createEvent (77 MB)
+  clicksConsumer: serverless-color-tracking-dev-clicksConsumer (77 MB)
+  hoversConsumer: serverless-color-tracking-dev-hoversConsumer (77 MB)
+  broadcastClicks: serverless-color-tracking-dev-broadcastClicks (77 MB)
+  broadcastHovers: serverless-color-tracking-dev-broadcastHovers (77 MB)
+  broadcastAdminStats: serverless-color-tracking-dev-broadcastAdminStats (77 MB)
+  getStats: serverless-color-tracking-dev-getStats (77 MB)
+  getAdminStats: serverless-color-tracking-dev-getAdminStats (77 MB)
+  websocketConnections: serverless-color-tracking-dev-websocketConnections (77 MB)
 ```
 
 1 function at a time:

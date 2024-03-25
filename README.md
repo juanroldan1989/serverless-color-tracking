@@ -173,3 +173,7 @@ Send a message. Note that the action key in the message is used for the route se
 > {"action": "live", "api_key": "api_key", "event_type": "click"}
 > {"action": "live", "api_key": "api_key", "event_type": "hover"}
 ```
+
+## Terraform static website
+
+https://dev.to/aws-builders/how-to-deploy-a-serverless-website-with-terraform-5677

@@ -11,7 +11,7 @@ $(document).ready(function() {
     socket.send(JSON.stringify(data));
   };
 
-  // Setup listener for messages via websockets
+  // Setup listener for messages
   socket.onmessage = function(message) {
     var data = JSON.parse(message.data);
 

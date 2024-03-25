@@ -2,6 +2,13 @@ service: serverless-color-tracking
 
 frameworkVersion: "3"
 
+# TODO: Add WAF to protect the API Gateway from DDoS attacks
+# TODO: check wether API Key provided by clients exist in the database before allowing them to connect to the websocket
+# TODO: integrate Lumigo for monitoring and debugging (FREE tier supports 150K traces per month)
+# TODO: add "events per second" column associated with each API Key in database
+# TODO: define "limit" for "events per second" for each API Key in database
+# TODO: simulate 1K users sending events to API Gateway and see how it scales
+
 provider:
   name: aws
   runtime: python3.9
@@ -9,6 +16,7 @@ provider:
   region: us-east-1
   logRetentionInDays: 7
   environment:
+    # TODO: put into SSM Manager stores (helps for rotation of the values itself) and use AWS KMS to encrypt this value
     ADMIN_API_KEY: ${file(./secrets.json):ADMIN_API_KEY}
     CONNECTIONS_TABLE: ${self:service}-${sls:stage}-connectionsTable
     STATS_TABLE: ${self:service}-${sls:stage}-statsTable
@@ -59,6 +67,8 @@ provider:
 
 plugins:
   - serverless-python-requirements
+  # TODO: try serverless-finch to deploy static website
+  # TODO: try AWS Amplify to deploy static website. Github repo can be connected to Amplify to deploy automatically any changes.
 
 functions:
   createEvent:

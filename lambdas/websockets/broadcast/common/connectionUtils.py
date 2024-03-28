@@ -16,12 +16,15 @@ def get_connections(api_key):
   return connections
 
 def send_to_connection(connection, data):
-  endpoint_url = "https://" + connection["DomainName"]["S"] + "/" + connection["Stage"]["S"]
-  print("endpoint_url: ", endpoint_url)
+  try:
+    endpoint_url = "https://" + connection["DomainName"]["S"] + "/" + connection["Stage"]["S"]
+    print("endpoint_url: ", endpoint_url)
 
-  gatewayapi = boto3.client("apigatewaymanagementapi", endpoint_url=endpoint_url)
+    gatewayapi = boto3.client("apigatewaymanagementapi", endpoint_url=endpoint_url)
 
-  gatewayapi.post_to_connection(
-    ConnectionId=connection["ConnectionId"]["S"],
-    Data=json.dumps(data).encode('utf-8')
-  )
+    gatewayapi.post_to_connection(
+      ConnectionId=connection["ConnectionId"]["S"],
+      Data=json.dumps(data).encode('utf-8')
+    )
+  except Exception as e:
+    print("Error sending data to connection:", str(e))

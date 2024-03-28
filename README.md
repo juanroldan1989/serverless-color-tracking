@@ -123,6 +123,10 @@ functions:
   websocketConnections: serverless-color-tracking-dev-websocketConnections (77 MB)
 ```
 
+## Monitoring & Troubleshooting
+
+- [Lumigo](https://lumigo.io/) end-to-end story of every request with payload data and stack traces so you can troubleshoot in a single view.
+
 ## Bundling dependencies
 
 In case you would like to include third-party dependencies, you will need to use a plugin called `serverless-python-requirements`. You can set it up by running the following command:

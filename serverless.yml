@@ -4,10 +4,11 @@ frameworkVersion: "3"
 
 # TODO: Add WAF to protect the API Gateway from DDoS attacks
 # TODO: check wether API Key provided by clients exist in the database before allowing them to connect to the websocket
-# TODO: integrate Lumigo for monitoring and debugging (FREE tier supports 150K traces per month)
 # TODO: add "events per second" column associated with each API Key in database
 # TODO: define "limit" for "events per second" for each API Key in database
 # TODO: simulate 1K users sending events to API Gateway and see how it scales
+# TODO: validate events schema before processing them - https://docs.powertools.aws.dev/lambda/python/2.16.2/utilities/validation/#validating-custom-formats
+# TODO: apply "reserved concurrent executions" to avoid being charged for more than expected on lamda functions
 
 provider:
   name: aws

@@ -23,6 +23,9 @@ def handler(event, context):
   print("event: ", event)
 
   try:
+    # broadcast to admin stats dashboard
+    connections = get_connections(ADMIN_API_KEY)
+
     for record in event['Records']:
       payload = extract_payload(record)
 
@@ -31,11 +34,10 @@ def handler(event, context):
       if payload['api_key'] is None:
         continue
 
-      # broadcast to admin stats dashboard
-      connections = get_connections(ADMIN_API_KEY)
-
-      # get single stat
       stat = get_single_stat(payload['api_key'], payload['action'], payload['color'])
+
+      if stat is None:
+        continue
 
       # for every Admin connected to the Admin Stats Dashboard
       for connection in connections["Items"]:

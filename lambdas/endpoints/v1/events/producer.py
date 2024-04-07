@@ -3,6 +3,9 @@ import boto3
 import json
 import uuid
 
+# TODO: validate need of this function
+#       alternative could be to just send event
+#       straight to kinesis stream from api gateway
 def handler(event, context):
   api_key = event.get('headers', {}).get('Authorization')
 

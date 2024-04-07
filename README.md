@@ -147,6 +147,27 @@ https://dynobase.dev/dynamodb-filterexpression/
 
 https://www.serverless.com/blog/cors-api-gateway-survival-guide
 
+## AWS Lazy initialization
+
+https://pages.awscloud.com/rs/112-TZM-766/images/2020_0316-SRV_Slide-Deck.pdf
+
+```ruby
+import boto3
+
+S3_client = None
+ddb_client = None
+
+def get_objects(event, context):
+  if not s3_client:
+    s3_client = boto3.client("s3")
+  # business logic
+
+def get_items(event, context):
+  if not ddb_client:
+    ddb_client = boto3.client("dynamodb")
+  # business logic
+```
+
 ## AWS Websockets
 
 https://docs.amazonaws.cn/en_us/apigateway/latest/developerguide/apigateway-how-to-call-websocket-api-wscat.html
